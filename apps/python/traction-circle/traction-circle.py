@@ -10,14 +10,19 @@ x=0
 y=0
 z=0
 
+appHeight = 200
+appWidth = 320
+
+gFormatter = "{:) {:.2f}"
+
 def doRender(deltaT):
-    global x,y,z, xG, yG, zG
+    global x,y,z, xG, yG, zG, gFormatter
     try:
         x, y, z=ac.getCarState(0,acsys.CS.AccG)
 
-        ac.setText(xG,"{0}g".format(x))
-        ac.setText(yG,"{0}g".format(y))
-        ac.setText(zG,"{0}g".format(z))
+        ac.setText(xG, "{:.2f}".format(x))
+        ac.setText(yG,"{:.2f}".format(y))
+        ac.setText(zG, "{:.2f}".format(z))
 
     except Exception as e:
         ac.log(str(e))
@@ -26,7 +31,7 @@ def acMain(ac_version):
     global xG, yG, zG, versionLabel
 
     appWindow=ac.newApp("Traction Circle")
-    ac.setSize(appWindow, 320,160)
+    ac.setSize(appWindow, appWidth, appHeight)
     ac.drawBorder(appWindow,0)
 
     versionLabel=ac.addLabel(appWindow, "Hello World!")
@@ -35,10 +40,10 @@ def acMain(ac_version):
     yG=ac.addLabel(appWindow, "0.0")
     zG=ac.addLabel(appWindow, "0.0")
 
-    ac.setPosition(xG, 50, 20)
-    ac.setPosition(yG, 50, 50)
-    ac.setPosition(zG, 50, 70)
-    ac.setPosition(versionLabel, 50, 100)
+    ac.setPosition(xG, 10, appHeight-20)
+    ac.setPosition(yG, 50, appHeight-20)
+    ac.setPosition(zG, 100, appHeight-20)
+    ac.setPosition(versionLabel, 50, appHeight - 50)
 
 
     ac.addRenderCallback(appWindow, doRender)
