@@ -1,0 +1,1 @@
+xcopy /Y /e apps\python\traction-circle "c:\Program Files (x86)\Steam\steamapps\common\assettocorsa\apps\python"\traction-circle
