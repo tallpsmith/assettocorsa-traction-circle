@@ -13,7 +13,7 @@ z=0
 appHeight = 200
 appWidth = 320
 
-gFormatter = "{:) {:.2f}"
+gFormatter = "{} {:.2f}"
 
 def doRender(deltaT):
     global x,y,z, xG, yG, zG, gFormatter
@@ -22,7 +22,7 @@ def doRender(deltaT):
 
         ac.setText(xG, "{:.2f}".format(x))
         ac.setText(yG,"{:.2f}".format(y))
-        ac.setText(zG, "{:.2f}".format(z))
+        ac.setText(zG, gFormatter.format("z", z))
 
     except Exception as e:
         ac.log(str(e))
