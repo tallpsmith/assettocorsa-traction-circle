@@ -1,15 +1,14 @@
 from collections import deque
 
 
-dataList = deque()
-
-
 class TractionCircleModel(object):
+    dataList = deque()
+
     def addDataPoint(self, x, y, z):
-        dataList.append({"x": x, "y": y, "z": z})
+        self.dataList.append({"x": x, "y": y, "z": z})
 
     def dataPoints(self):
-        return deque(dataList)
+        return deque(self.dataList)
 
 
 
