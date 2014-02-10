@@ -10,7 +10,6 @@ class TractionCircleView:
 
     def render(self):
         try:
-            #self.label.setText("{0}".format(len(self.tractionCircleModel.dataPoints())))
-            ac.setText(self.label, 'Rendering!')
+            ac.setText(self.label, "{0}".format(len(self.tractionCircleModel.dataPoints())))
         except Exception as e:
             ac.log(str(e))

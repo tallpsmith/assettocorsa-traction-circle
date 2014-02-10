@@ -5,8 +5,7 @@ class TractionCircleUpdater:
         self.model = model
 
     def doUpdate(self, deltaT):
-        #x, y, z = self.AC.getAccelerations()
+        x, y, z = self.AC.getAccelerations()
 
-        #self.model.addDataPoint(x, y, z)
+        self.model.addDataPoint(x, y, z)
         self.view.render()
-        #pass
