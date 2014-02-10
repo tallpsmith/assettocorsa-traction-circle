@@ -20,6 +20,26 @@ class TestTractionCircleUpdater(TestCase):
         AC.getAccelerations.assert_called_with()
         view.render.assert_called_with()
 
+    def test_shouldCallFilterPointsOnModel(self):
+
+        view = Mock()
+        model = Mock()
+        AC = Mock()
+        timeSource = Mock()
+        timeSource.time = Mock(return_value=5)
+
+        AC.getAccelerations = Mock(return_value=[1, 2, 3])
+
+        updater = TractionCircleUpdater(AC, view, model, timeSource, 5)
+        updater.doUpdate(1)
+
+        model.filterPoints.assert_called_with(0)
+
+        timeSource.time=Mock(return_value=25)
+        updater.doUpdate(2)
+        model.filterPoints.assert_called_with(20)
+
+
 
 
 

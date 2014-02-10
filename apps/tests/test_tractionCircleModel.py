@@ -10,13 +10,27 @@ __author__ = 'psmith'
 
 class TestTractionCircleModel(TestCase):
     def test_addDataPoint(self):
+
+        mockedTime = time
+        mockedTime.time = MagicMock(return_value=5)
+
+        self.tcm = TractionCircleModel(mockedTime)
+
+        self.tcm.addDataPoint(1, 2, 3)
+
+        self.assertEquals(self.tcm.dataPoints()[0]["time"], 5)
+
+    def test_filterDataPoints(self):
         mockedTime = time
         mockedTime.time = MagicMock(return_value=5)
 
         tcm = TractionCircleModel(mockedTime)
 
-        tcm.addDataPoint(1, 2, 3)
+        tcm.addDataPoint(1,2,3)
 
-        self.assertEquals(tcm.dataPoints()[0]["time"], 5)
+        self.assertEquals(1, len(tcm.dataPoints()))
+        tcm.filterPoints(10)
+
+        self.assertEquals(0, len(tcm.dataPoints()))
 
 
