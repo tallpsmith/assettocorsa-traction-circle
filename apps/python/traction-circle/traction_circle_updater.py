@@ -1,7 +1,7 @@
 import time
 
 class TractionCircleUpdater:
-    def __init__(self, AC, view, model, timeSource=time, maxTimeRange=5000):
+    def __init__(self, AC, view, model, timeSource=time, maxTimeRange=5):
         self.AC = AC
         self.view = view
         self.model = model
