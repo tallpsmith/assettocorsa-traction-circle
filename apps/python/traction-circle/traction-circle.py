@@ -6,18 +6,27 @@ from assettocorsa import AssettoCorsa
 
 appHeight = 200
 appWidth = 320
-
+updater = 0
 
 def acMain(ac_version):
+    global updater
     appWindow = ac.newApp("Traction Circle")
     ac.setSize(appWindow, appWidth, appHeight)
     ac.drawBorder(appWindow, 0)
 
-    model = TractionCircleModel()
+    try:
+        model = TractionCircleModel()
+        assetto_corsa = AssettoCorsa()
+        view = TractionCircleView(appWindow, model)
+        updater = TractionCircleUpdater(assetto_corsa, view, model)
 
-    assetto_corsa = AssettoCorsa()
-    view = TractionCircleView(appWindow, model)
-    updater = TractionCircleUpdater(assetto_corsa, view, model)
-
-    ac.addRenderCallback(appWindow, updater.doUpdate)
+        ac.addRenderCallback(appWindow, doUpdate)
+    except Exception as e:
+        ac.log(str(e))
     return "Traction Circle"
+
+def doUpdate(deltaT):
+    global updater
+
+    updater.doUpdate(deltaT)
+
