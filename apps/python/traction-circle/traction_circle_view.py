@@ -6,6 +6,8 @@ class TractionCircleView:
     GREEN = 184.0/255
     BLUE = 73.0 / 255
 
+    FINAL_COLOUR = {31,77,31}
+
     def __init__(self, window, tractionCircleModel, gPlotter):
         self.WIDTH = 2.0
         self.HEIGHT = 2.0
