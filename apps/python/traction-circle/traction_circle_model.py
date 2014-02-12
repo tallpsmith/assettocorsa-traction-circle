@@ -15,7 +15,7 @@ class TractionCircleModel(object):
         return deque(self.dataList)
 
     def filterPoints(self, timeSpan):
-        self.dataList = filter(lambda x: x["time"]>= timeSpan, self.dataList)
+        self.dataList = list(filter(lambda x: x["time"]>= timeSpan, self.dataList))
 
 
 

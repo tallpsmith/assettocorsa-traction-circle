@@ -33,4 +33,7 @@ class TestTractionCircleModel(TestCase):
 
         self.assertEquals(0, len(tcm.dataPoints()))
 
+        # check we can still add to the filtered structure!
+        tcm.addDataPoint(9,9,9)
+
 
