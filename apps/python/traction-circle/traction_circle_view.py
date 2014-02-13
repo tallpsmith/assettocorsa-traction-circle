@@ -1,10 +1,11 @@
 import ac
+import traceback
 from colourfader import ColourFader
 
 
 class TractionCircleView:
-    START_COLOUR = {'red': 77.0, 'green': 184.0, 'blue': 73.0}
-    FINAL_COLOUR = {'red': 31.0, 'green': 77.0, 'blue': 31.0}
+    START_COLOUR = {'red': 77, 'green': 184, 'blue': 77} # note that with some start/end values, one of the colour values stepping functions may abort earlier giving uneven array lengths
+    FINAL_COLOUR = {'red': 31, 'green': 77, 'blue': 31}
 
     def __init__(self, window, tractionCircleModel, gPlotter):
         self.WIDTH = 2.0
@@ -20,16 +21,21 @@ class TractionCircleView:
     def render(self):
         try:
             dataPoints = self.tractionCircleModel.dataPoints()
-            colourFades = self.colourFader.fade(dataPoints.size())
+            colourFades = self.colourFader.fade(len(dataPoints))
 
+            ac.glColor3f(1.0, 1.0, 1.0)
+
+            i = 0
             for dataPoint in dataPoints:
                 x, y = self.gPlotter.plotG(dataPoint['x'], dataPoint['z'])
-                ac.glColor3f(colourFades['red'], colourFades['green'], colourFades['blue'])
+                ac.glColor3f(colourFades[i]['red'], colourFades[i]['green'], colourFades[i]['blue'])
+                i = i + 1
                 ac.glQuad(x, y, self.WIDTH, self.HEIGHT)
 
+            ac.glColor3f(1.0, 1.0, 1.0)
             ac.setText(self.label, "{0}".format(len(self.tractionCircleModel.dataPoints())))
         except Exception as e:
-            ac.log(str(e))
+            ac.log(str(traceback.format_exc()))
 
 
 

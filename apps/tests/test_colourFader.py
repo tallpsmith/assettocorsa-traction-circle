@@ -13,11 +13,25 @@ class TestColourFader(TestCase):
         self.assertEquals(1/255, fadedColours[254]['red'])
 
     def test_fadeComplex(self):
-        START_COLOUR = {'red': 77.0, 'green': 184.0, 'blue': 73.0}
-        FINAL_COLOUR = {'red': 31.0, 'green': 77.0, 'blue': 31.0}
-
         fader = ColourFader({"red": 100, "green": 100, "blue": 100}, {"red": 0, "green": 0, "blue": 0})
 
         fadedColours = fader.fade(10)
 
         self.assertEquals(10, len(fadedColours))
+
+    def test_emptyDataPoints(self):
+        fader = ColourFader({"red": 100, "green": 100, "blue": 100}, {"red": 0, "green": 0, "blue": 0})
+
+        fadedColours = fader.fade(0)
+
+        self.assertEquals(2, len(fadedColours))
+        self.assertTrue(fadedColours[0]['red']<1.0)
+
+        fadedColours = fader.fade(1)
+        self.assertEquals(2, len(fadedColours))
+
+
+        fadedColours = fader.fade(2)
+        self.assertEquals(2, len(fadedColours))
+
+
