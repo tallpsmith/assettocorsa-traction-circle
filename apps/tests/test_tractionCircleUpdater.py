@@ -39,6 +39,21 @@ class TestTractionCircleUpdater(TestCase):
         updater.doUpdate(2)
         model.filterPoints.assert_called_with(20)
 
+    def test_shouldUpdateMaxTimeRange(self):
+        view = Mock()
+        model = Mock()
+        AC = Mock()
+        timeSource = Mock()
+        timeSource.time = Mock(return_value=5)
+
+        AC.getAccelerations = Mock(return_value=[1, 2, 3])
+
+        updater = TractionCircleUpdater(AC, view, model, timeSource, 5)
+        updater.setMaxTimeRange(2)
+        updater.doUpdate(1)
+
+        model.filterPoints.assert_called_with(3)
+
 
 
 
