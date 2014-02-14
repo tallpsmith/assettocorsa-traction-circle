@@ -4,8 +4,8 @@ from colourfader import ColourFader
 
 
 class TractionCircleView:
-    START_COLOUR = {'red': 77, 'green': 184, 'blue': 77} # note that with some start/end values, one of the colour values stepping functions may abort earlier giving uneven array lengths
-    FINAL_COLOUR = {'red': 31, 'green': 77, 'blue': 31}
+    FINAL_COLOUR = {'red': 77, 'green': 184, 'blue': 77} # note that with some start/end values, one of the colour values stepping functions may abort earlier giving uneven array lengths
+    START_COLOUR = {'red': 31, 'green': 77, 'blue': 31}
 
     def __init__(self, window, tractionCircleModel, gPlotter):
         self.WIDTH = 2.0
