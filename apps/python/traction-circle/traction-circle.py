@@ -13,7 +13,6 @@ maxG = 2
 updater = 0
 numSecondsSpinner = 0
 
-
 def acMain(ac_version):
     global updater, appHeight, appWidth, appWindow, numSecondsSpinner
     appWindow = ac.newApp("Traction Circle")
@@ -24,15 +23,14 @@ def acMain(ac_version):
         model = TractionCircleModel()
         assetto_corsa = AssettoCorsa()
 
-        ac.log("Beginning Spinner creation")
-        maxTimeSpan = 5
-        numSecondsSpinner = ac.addSpinner(appWindow, 'Time Span')
+        maxTimeSpan = 3
+        numSecondsSpinner = ac.addSpinner(appWindow, 'Time Span(s)')
         ac.setPosition(numSecondsSpinner, 0, appHeight - 20)
+        ac.setSize(numSecondsSpinner, 100, 20)
         ac.setRange(numSecondsSpinner, 1, 10)
         ac.setValue(numSecondsSpinner, maxTimeSpan)
         ac.addOnValueChangeListener(numSecondsSpinner, updateMaxTimeRange)
 
-        ac.log("Finished Spinner")
         gPlotter = GPlotter(appWidth, appHeight, maxG, maxG)
         view = TractionCircleView(appWindow, model, gPlotter)
         updater = TractionCircleUpdater(assetto_corsa, view, model, maxTimeRange=maxTimeSpan)
@@ -43,15 +41,11 @@ def acMain(ac_version):
 
     return "Traction Circle"
 
-
 def doUpdate(deltaT):
     global updater
-
     updater.doUpdate(deltaT)
-
 
 def updateMaxTimeRange(value):
     global updater
-    ac.log("Setting Num Seconds to {0}".format(str(value)))
     updater.setMaxTimeRange(value)
 
