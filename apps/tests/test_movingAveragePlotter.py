@@ -21,3 +21,11 @@ class TestMovingAveragePlotter(TestCase):
         self.assertEquals(4, averagedPoints[1]['y'], str(averagedPoints))  # 2,3,4,5,6 = average of 4
         self.assertEquals(4, averagedPoints[1]['y'], str(averagedPoints))  # 2,3,4,5,6 = average of 4
 
+    def test_shouldNotPlotMuchIfTheresNotEnoughDataPoints(self):
+
+        points = []
+        moving_average_plotter = MovingAveragePlotter()
+
+        averagedPoints = moving_average_plotter.plotMovingAverage(points)
+        self.assertEquals(0, len(points))
+

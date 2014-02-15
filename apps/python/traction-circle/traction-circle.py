@@ -4,6 +4,7 @@ from traction_circle_g_plotter import GPlotter
 from traction_circle_model import TractionCircleModel
 from traction_circle_view import TractionCircleView
 from traction_circle_updater import TractionCircleUpdater
+from moving_average_plotter import MovingAveragePlotter
 from assettocorsa import AssettoCorsa
 
 appHeight = 200
@@ -32,7 +33,7 @@ def acMain(ac_version):
         ac.addOnValueChangeListener(numSecondsSpinner, updateMaxTimeRange)
 
         gPlotter = GPlotter(appWidth, appHeight, maxG, maxG)
-        view = TractionCircleView(appWindow, model, gPlotter)
+        view = TractionCircleView(appWindow, model, gPlotter, MovingAveragePlotter(10) )
         updater = TractionCircleUpdater(assetto_corsa, view, model, maxTimeRange=maxTimeSpan)
 
         ac.addRenderCallback(appWindow, doUpdate)
