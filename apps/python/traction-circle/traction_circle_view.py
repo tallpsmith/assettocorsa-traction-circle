@@ -20,24 +20,19 @@ class TractionCircleView:
         self.movingAvgPlotter = movingAvgPlotter
 
     def drawScatterPlot(self, colourFades, dataPoints):
-        i = 0
-        for dataPoint in dataPoints:
+        for dataPoint, colour in zip(dataPoints, colourFades):
             x, y = self.gPlotter.plotG(dataPoint['x'], dataPoint['z'])
-            ac.glColor3f(colourFades[i]['red'], colourFades[i]['green'], colourFades[i]['blue'])
-            i = i + 1
+            ac.glColor3f(colour['red'], colour['green'], colour['blue'])
             ac.glQuad(x, y, self.WIDTH, self.HEIGHT)
         ac.glColor3f(1.0, 1.0, 1.0)
 
     def drawMovingAverage(self, colourFades, dataPoints):
         moving_average = self.movingAvgPlotter.plotMovingAverage(dataPoints)
-        ac.glColor3f(1.0, 1.0, 1.0)
 
-        i = 0
         ac.glBegin(1)
-        for point in moving_average:
-            ac.glColor3f(colourFades[i]['red'], colourFades[i]['green'], colourFades[i]['blue'])
+        for point, colour in zip(moving_average, colourFades):
+            ac.glColor3f(colour['red'], colour['green'], colour['blue'])
             x, y = self.gPlotter.plotG(point['x'], point['z'])
-            i = i + 1
             ac.glVertex2f(x,y)
         ac.glEnd()
 
