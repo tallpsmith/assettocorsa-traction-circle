@@ -33,18 +33,20 @@ class TractionCircleView:
 
     def drawCircumference(self, radius, center):
         ac.glBegin(1)
-        for i in range(101):
-            x, y = self.gPlotter.plotG(center['x'] + (sin(2*pi*i/100.)*radius), center['z'] + (cos(2*pi*i/100.)*radius))
+        nlines = max(4, int(100.*radius))
+        for i in range(nlines+1):
+            x, y = self.gPlotter.plotG(center['x'] + (sin(2*pi*i/nlines)*radius), center['z'] + (cos(2*pi*i/nlines)*radius))
             ac.glVertex2f(x, y)
         ac.glEnd()
 
     def drawCircle(self, radius, center):
         ac.glBegin(acsys.GL.Triangles)
         prevx, prevy = self.gPlotter.plotG(center['x'], center['z'])
-        for i in range(101):
+        ntriangles = max(4, int(100.*radius))
+        for i in range(ntriangles+1):
             ac.glVertex2f(*self.gPlotter.plotG(center['x'], center['z']))
             ac.glVertex2f(prevx, prevy)
-            x, y = self.gPlotter.plotG(center['x'] + (sin(2*pi*i/100.)*radius), center['z'] + (cos(2*pi*i/100.)*radius))
+            x, y = self.gPlotter.plotG(center['x'] + (sin(2*pi*i/ntriangles)*radius), center['z'] + (cos(2*pi*i/ntriangles)*radius))
             ac.glVertex2f(x, y)
             prevx, prevy = x, y
         ac.glEnd()
