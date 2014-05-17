@@ -26,24 +26,23 @@ class TractionCircleView:
             ac.glQuad(x, y, self.WIDTH, self.HEIGHT)
         ac.glColor3f(1.0, 1.0, 1.0)
 
-    def drawMovingAverage(self, colourFades, dataPoints):
-        moving_average = self.movingAvgPlotter.plotMovingAverage(dataPoints)
-
+    def drawLinePlot(self, colourFades, dataPoints):
         ac.glBegin(1)
-        for point, colour in zip(moving_average, colourFades):
+        for dataPoint, colour in zip(dataPoints, colourFades):
             ac.glColor3f(colour['red'], colour['green'], colour['blue'])
-            x, y = self.gPlotter.plotG(point['x'], point['z'])
+            x, y = self.gPlotter.plotG(dataPoint['x'], dataPoint['z'])
             ac.glVertex2f(x,y)
         ac.glEnd()
 
     def render(self):
         try:
             dataPoints = self.tractionCircleModel.dataPoints()
+            moving_average = self.movingAvgPlotter.plotMovingAverage(dataPoints)
             dataPointsColourFades = self.dataPointsColourFader.fade(len(dataPoints))
             movingAverageColourFades = self.movingAverageColourFader.fade(len(dataPoints))
 
             self.drawScatterPlot(dataPointsColourFades, dataPoints)
-            self.drawMovingAverage(movingAverageColourFades, dataPoints)
+            self.drawLinePlot(movingAverageColourFades, moving_average)
 
         except Exception as e:
             ac.log(str(traceback.format_exc()))
