@@ -1,5 +1,6 @@
-import ac
+import ac, acsys
 import traceback
+from math import sin, cos, pi
 from colourfader import ColourFader
 from moving_average_plotter import MovingAveragePlotter
 
@@ -13,11 +14,23 @@ class TractionCircleView:
     def __init__(self, window, tractionCircleModel, gPlotter, movingAvgPlotter):
         self.WIDTH = 2.0
         self.HEIGHT = 2.0
+        self.currentSize = 0.10
         self.gPlotter = gPlotter
         self.tractionCircleModel = tractionCircleModel
         self.dataPointsColourFader = ColourFader(self.START_COLOUR_DATA_POINTS, self.FINAL_COLOUR_DATA_POINTS)
         self.movingAverageColourFader = ColourFader(self.START_COLOUR_MOVING_AVERAGE, self.FINAL_COLOUR_MOVING_AVERAGE)
         self.movingAvgPlotter = movingAvgPlotter
+
+    def drawCircle(self, radius, center):
+        ac.glBegin(acsys.GL.Triangles)
+        prevx, prevy = self.gPlotter.plotG(center['x'], center['z'])
+        for i in range(101):
+            ac.glVertex2f(*self.gPlotter.plotG(center['x'], center['z']))
+            ac.glVertex2f(prevx, prevy)
+            x, y = self.gPlotter.plotG(center['x'] + (sin(2*pi*i/100.)*radius), center['z'] + (cos(2*pi*i/100.)*radius))
+            ac.glVertex2f(x, y)
+            prevx, prevy = x, y
+        ac.glEnd()
 
     def drawScatterPlot(self, colourFades, dataPoints):
         for dataPoint, colour in zip(dataPoints, colourFades):
@@ -34,6 +47,12 @@ class TractionCircleView:
             ac.glVertex2f(x,y)
         ac.glEnd()
 
+    def drawPoint(self, radius, dataPoint):
+        ac.glColor3f(0.2, 1.0, 0.2)
+        self.drawCircle(radius, dataPoint)
+        ac.glColor3f(1.0, 1.0, 1.0)
+        self.drawCircumference(radius, dataPoint)
+
     def render(self):
         try:
             dataPoints = self.tractionCircleModel.dataPoints()
@@ -43,6 +62,8 @@ class TractionCircleView:
 
             self.drawScatterPlot(dataPointsColourFades, dataPoints)
             self.drawLinePlot(movingAverageColourFades, moving_average)
+            if len(moving_average) > 0:
+                self.drawPoint(self.currentSize, moving_average[-1])
 
         except Exception as e:
             ac.log(str(traceback.format_exc()))
