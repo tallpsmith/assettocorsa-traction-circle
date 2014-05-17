@@ -21,6 +21,23 @@ class TractionCircleView:
         self.movingAverageColourFader = ColourFader(self.START_COLOUR_MOVING_AVERAGE, self.FINAL_COLOUR_MOVING_AVERAGE)
         self.movingAvgPlotter = movingAvgPlotter
 
+    def drawCross(self, radius):
+        ac.glBegin(1)
+        ac.glVertex2f(*self.gPlotter.plotG(-radius, 0))
+        ac.glVertex2f(*self.gPlotter.plotG(+radius, 0))
+        ac.glEnd()
+        ac.glBegin(1)
+        ac.glVertex2f(*self.gPlotter.plotG(0, -radius))
+        ac.glVertex2f(*self.gPlotter.plotG(0, +radius))
+        ac.glEnd()
+
+    def drawCircumference(self, radius, center):
+        ac.glBegin(1)
+        for i in range(101):
+            x, y = self.gPlotter.plotG(center['x'] + (sin(2*pi*i/100.)*radius), center['z'] + (cos(2*pi*i/100.)*radius))
+            ac.glVertex2f(x, y)
+        ac.glEnd()
+
     def drawCircle(self, radius, center):
         ac.glBegin(acsys.GL.Triangles)
         prevx, prevy = self.gPlotter.plotG(center['x'], center['z'])
@@ -31,6 +48,13 @@ class TractionCircleView:
             ac.glVertex2f(x, y)
             prevx, prevy = x, y
         ac.glEnd()
+
+    def drawGrid(self, radius):
+        ac.glColor3f(0.3, 0.3, 0.3)
+        self.drawCross(radius)
+        ac.glColor3f(0.5, 0.5, 0.5)
+        self.drawCircumference(radius, {'x':0, 'z':0})
+        self.drawCircumference(radius/2, {'x':0, 'z':0})
 
     def drawScatterPlot(self, colourFades, dataPoints):
         for dataPoint, colour in zip(dataPoints, colourFades):
@@ -60,6 +84,7 @@ class TractionCircleView:
             dataPointsColourFades = self.dataPointsColourFader.fade(len(dataPoints))
             movingAverageColourFades = self.movingAverageColourFader.fade(len(dataPoints))
 
+            self.drawGrid(self.gPlotter.maxXRange)
             self.drawScatterPlot(dataPointsColourFades, dataPoints)
             self.drawLinePlot(movingAverageColourFades, moving_average)
             if len(moving_average) > 0:
