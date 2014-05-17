@@ -12,8 +12,7 @@ class TractionCircleView:
     START_COLOUR_MOVING_AVERAGE = {'red': 64, 'green': 64, 'blue': 64}
 
     def __init__(self, window, tractionCircleModel, gPlotter, movingAvgPlotter):
-        self.WIDTH = 2.0
-        self.HEIGHT = 2.0
+        self.scatterSize = 0.04
         self.currentSize = 0.10
         self.gPlotter = gPlotter
         self.tractionCircleModel = tractionCircleModel
@@ -52,17 +51,16 @@ class TractionCircleView:
         ac.glEnd()
 
     def drawGrid(self, radius):
-        ac.glColor3f(0.3, 0.3, 0.3)
+        ac.glColor4f(0.8, 0.8, 0.8, 0.7)
         self.drawCross(radius)
-        ac.glColor3f(0.5, 0.5, 0.5)
+        ac.glColor4f(1.0, 1.0, 1.0, 0.9)
         self.drawCircumference(radius, {'x':0, 'z':0})
         self.drawCircumference(radius/2, {'x':0, 'z':0})
 
     def drawScatterPlot(self, colourFades, dataPoints):
         for dataPoint, colour in zip(dataPoints, colourFades):
-            x, y = self.gPlotter.plotG(dataPoint['x'], dataPoint['z'])
             ac.glColor3f(colour['red'], colour['green'], colour['blue'])
-            ac.glQuad(x, y, self.WIDTH, self.HEIGHT)
+            self.drawCircle(self.scatterSize, dataPoint)
         ac.glColor3f(1.0, 1.0, 1.0)
 
     def drawLinePlot(self, colourFades, dataPoints):
