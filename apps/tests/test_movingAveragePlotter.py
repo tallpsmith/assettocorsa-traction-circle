@@ -19,7 +19,7 @@ class TestMovingAveragePlotter(TestCase):
         self.assertEqual(3, averagedPoints[0]['z'])  # 1,2,3,4,5 = average of 3
         self.assertEqual(4, averagedPoints[1]['x'], str(averagedPoints))  # 2,3,4,5,6 = average of 4
         self.assertEqual(4, averagedPoints[1]['y'], str(averagedPoints))  # 2,3,4,5,6 = average of 4
-        self.assertEqual(4, averagedPoints[1]['y'], str(averagedPoints))  # 2,3,4,5,6 = average of 4
+        self.assertEqual(4, averagedPoints[1]['z'], str(averagedPoints))  # 2,3,4,5,6 = average of 4
 
     def test_shouldNotPlotMuchIfTheresNotEnoughDataPoints(self):
 
