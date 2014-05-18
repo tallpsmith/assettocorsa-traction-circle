@@ -3,35 +3,49 @@ from colourfader import ColourFader
 
 
 class TestColourFader(TestCase):
-    def test_fadeSimple(self):
-        fader = ColourFader({"red": 255, "green": 255, "blue": 255}, {"red": 0, "green": 0, "blue": 0})
+    def test_emptyRange(self):
+        fader = ColourFader((0, ), (10, ))
+        # all these cases (<2 slots) are corrected to the same case (=2 slots):
+        self.assertEquals(2, len(fader.fade(nSlots=-2)))
+        self.assertEquals(2, len(fader.fade(nSlots=-1)))
+        self.assertEquals(2, len(fader.fade(nSlots= 0)))
+        self.assertEquals(2, len(fader.fade(nSlots= 1)))
+        self.assertEquals(2, len(fader.fade(nSlots= 2)))
 
-        fadedColours = fader.fade(255)
+        self.assertEquals(fader.fade(0), fader.fade(-1), fader.fade(-2))
+        self.assertEquals(fader.fade(0), fader.fade( 1), fader.fade( 2))
 
-        self.assertEquals(255, len(fadedColours))
+    def test_normalRange(self):
+        fader = ColourFader((0, ), (10, ))
+        self.assertEquals(   2, len(fader.fade(   2))) # min. normal range
+        self.assertEquals( 100, len(fader.fade( 100)))
+        self.assertEquals(1000, len(fader.fade(1000)))
 
-        self.assertEquals(1/255, fadedColours[254]['red'])
+    def test_signedValues(self):
+        self.assertEquals(ColourFader((  0,), ( 10,)).fade(3), [(  0,), ( 5,), ( 10,)]) # increasing
+        self.assertEquals(ColourFader((  0,), (-10,)).fade(3), [(  0,), (-5,), (-10,)]) # decreasing
 
-    def test_fadeComplex(self):
-        fader = ColourFader({"red": 100, "green": 100, "blue": 100}, {"red": 0, "green": 0, "blue": 0})
+        self.assertEquals(ColourFader((-10,), ( 10,)).fade(3), [(-10,), ( 0,), ( 10,)]) # increasing across zero
+        self.assertEquals(ColourFader(( 10,), (-10,)).fade(3), [( 10,), ( 0,), (-10,)]) # decreasing across zero
 
-        fadedColours = fader.fade(10)
+    def test_manyComponents(self):
+        # 1 colour components (e.g. greyscale)
+        self.assertEquals(
+            ColourFader((0,),       (2,)).fade(3),
+            [           (0,), (1,), (2,)])
 
-        self.assertEquals(10, len(fadedColours))
+        # 2 colour components (e.g. sepia toning)
+        self.assertEquals(
+            ColourFader((0, 10),          (2, 20)).fade(3),
+            [           (0, 10), (1, 15), (2, 20)])
 
-    def test_emptyDataPoints(self):
-        fader = ColourFader({"red": 100, "green": 100, "blue": 100}, {"red": 0, "green": 0, "blue": 0})
+        # 3 colour components (e.g. RGB)
+        self.assertEquals(
+            ColourFader((0, 10, 100),               (2, 20, 200)).fade(3),
+            [           (0, 10, 100), (1, 15, 150), (2, 20, 200)])
 
-        fadedColours = fader.fade(0)
-
-        self.assertEquals(2, len(fadedColours))
-        self.assertTrue(fadedColours[0]['red']<1.0)
-
-        fadedColours = fader.fade(1)
-        self.assertEquals(2, len(fadedColours))
-
-
-        fadedColours = fader.fade(2)
-        self.assertEquals(2, len(fadedColours))
-
+        # 4 colour components (e.g. RGBA)
+        self.assertEquals(
+            ColourFader((0, 10, 100, 1000),                     (2, 20, 200, 2000)).fade(3),
+            [           (0, 10, 100, 1000), (1, 15, 150, 1500), (2, 20, 200, 2000)])
 
