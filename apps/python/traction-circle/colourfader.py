@@ -10,4 +10,4 @@ class ColourFader:
             return tuple( (component-self.colourRange[nComponent]*progress for nComponent,component in enumerate(self.startColour)) )
 
         nSlots = max(nSlots, 2)
-        return [fadeSlot(nSlot/nSlots) for nSlot in range(nSlots)]
+        return [fadeSlot(nSlot/float(nSlots)) for nSlot in range(nSlots)]
