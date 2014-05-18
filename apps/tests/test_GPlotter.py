@@ -10,7 +10,7 @@ class TestGPlotter(TestCase):
 
         allPlots = plotter.plotAll(dataPoints)
 
-        self.assertEquals(2, len(allPlots))
+        self.assertEqual(2, len(allPlots))
         self.assertTrue(allPlots[0][0] < 320 and allPlots[0][0] > 0,
                         "Plotted x values must be between the range -160:160 " + str(allPlots))
 
@@ -20,15 +20,15 @@ class TestGPlotter(TestCase):
 
         x, y = plotter.plotG(0, 1)
 
-        self.assertEquals(160, x)
-        self.assertEquals(150, y)
+        self.assertEqual(160, x)
+        self.assertEqual(150, y)
 
     def test_centerPoint(self):
         plotter = GPlotter(320, 200, 2, 2)
 
         x, y = plotter.plotG(0, 0)
-        self.assertEquals(160, x)
-        self.assertEquals(100, y)
+        self.assertEqual(160, x)
+        self.assertEqual(100, y)
 
 
 

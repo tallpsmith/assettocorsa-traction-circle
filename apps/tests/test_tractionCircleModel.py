@@ -18,7 +18,7 @@ class TestTractionCircleModel(TestCase):
 
         self.tcm.addDataPoint(1, 2, 3)
 
-        self.assertEquals(self.tcm.dataPoints()[0]["time"], 5)
+        self.assertEqual(self.tcm.dataPoints()[0]["time"], 5)
 
     def test_filterDataPoints(self):
         mockedTime = time
@@ -28,10 +28,10 @@ class TestTractionCircleModel(TestCase):
 
         tcm.addDataPoint(1,2,3)
 
-        self.assertEquals(1, len(tcm.dataPoints()))
+        self.assertEqual(1, len(tcm.dataPoints()))
         tcm.filterPoints(10)
 
-        self.assertEquals(0, len(tcm.dataPoints()))
+        self.assertEqual(0, len(tcm.dataPoints()))
 
         # check we can still add to the filtered structure!
         tcm.addDataPoint(9,9,9)
