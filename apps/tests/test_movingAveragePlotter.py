@@ -13,13 +13,13 @@ class TestMovingAveragePlotter(TestCase):
 
         averagedPoints = moving_average_plotter.plotMovingAverage(points)
 
-        self.assertEquals(5, len(averagedPoints))
-        self.assertEquals(3, averagedPoints[0]['x'])  # 1,2,3,4,5 = average of 3
-        self.assertEquals(3, averagedPoints[0]['y'])  # 1,2,3,4,5 = average of 3
-        self.assertEquals(3, averagedPoints[0]['z'])  # 1,2,3,4,5 = average of 3
-        self.assertEquals(4, averagedPoints[1]['x'], str(averagedPoints))  # 2,3,4,5,6 = average of 4
-        self.assertEquals(4, averagedPoints[1]['y'], str(averagedPoints))  # 2,3,4,5,6 = average of 4
-        self.assertEquals(4, averagedPoints[1]['y'], str(averagedPoints))  # 2,3,4,5,6 = average of 4
+        self.assertEqual(5, len(averagedPoints))
+        self.assertEqual(3, averagedPoints[0]['x'])  # 1,2,3,4,5 = average of 3
+        self.assertEqual(3, averagedPoints[0]['y'])  # 1,2,3,4,5 = average of 3
+        self.assertEqual(3, averagedPoints[0]['z'])  # 1,2,3,4,5 = average of 3
+        self.assertEqual(4, averagedPoints[1]['x'], str(averagedPoints))  # 2,3,4,5,6 = average of 4
+        self.assertEqual(4, averagedPoints[1]['y'], str(averagedPoints))  # 2,3,4,5,6 = average of 4
+        self.assertEqual(4, averagedPoints[1]['z'], str(averagedPoints))  # 2,3,4,5,6 = average of 4
 
     def test_shouldNotPlotMuchIfTheresNotEnoughDataPoints(self):
 
@@ -27,5 +27,5 @@ class TestMovingAveragePlotter(TestCase):
         moving_average_plotter = MovingAveragePlotter()
 
         averagedPoints = moving_average_plotter.plotMovingAverage(points)
-        self.assertEquals(0, len(points))
+        self.assertEqual(0, len(points))
 
