@@ -10,6 +10,7 @@ class TractionCircleView:
     START_COLOUR_DATA_POINTS =    (0.00, 0.75, 0.00, 0.00)
     FINAL_COLOUR_MOVING_AVERAGE = (1.00, 1.00, 1.00, 1.00)
     START_COLOUR_MOVING_AVERAGE = (0.75, 0.75, 0.75, 0.25)
+    CIRCUMFERENCE_NTRIANGLES = 31 # The magic number that fixes the circumference render glitch.  May need to be adjusted per system.
 
     def __init__(self, window, tractionCircleModel, gPlotter, movingAvgPlotter):
         self.scatterSize = 0.04
@@ -32,7 +33,7 @@ class TractionCircleView:
 
     def drawCircumference(self, radius, center):
         ac.glBegin(1)
-        nlines = max(4, int(100.*radius))
+        nlines = self.CIRCUMFERENCE_NTRIANGLES # Previosly: max(4, int(100.*radius))
         for i in range(nlines+1):
             x, y = self.gPlotter.plotG(center['x'] + (sin(2*pi*i/nlines)*radius), center['z'] + (cos(2*pi*i/nlines)*radius))
             ac.glVertex2f(x, y)
